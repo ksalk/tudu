@@ -28,7 +28,6 @@ namespace Tudu.Api.Features.Todos
         public DateTime? Deadline { get; set; }
     }
 
-    //Change to respective classes with prefix - does not break swagger
     public class AddTodoToBacklogResponse
     {
         public Guid Id { get; set; }

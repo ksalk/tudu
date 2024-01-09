@@ -25,7 +25,6 @@ namespace Tudu.Api.Features.Todos
         public Guid TodoId { get; set; }
     }
 
-    //Change to respective classes with prefix - does not break swagger
     public class DeleteTodoFromBacklogResponse
     {
 
