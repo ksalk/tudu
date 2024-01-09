@@ -1,5 +1,6 @@
 using System.Reflection;
 using Tudu.Api.Shared.Endpoint;
+using Tudu.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,12 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining(typeof(Program)));
+builder.Services.AddDbContext<TuduDbContext>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetService<TuduDbContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+    }
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
