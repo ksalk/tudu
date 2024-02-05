@@ -43,8 +43,8 @@ namespace Tudu.Api.Features.Todos
         {
             var todoViewModels = await _dbContext
                 .Todos
-                .Select(todo => TodoViewModel.From(todo))
                 .WhereIf(request.AssignedDate.HasValue, todo => todo.AssignedDate == request.AssignedDate)
+                .Select(todo => TodoViewModel.From(todo))
                 .ToArrayAsync();
 
             return new GetTodosResponse()
