@@ -1,4 +1,8 @@
+using FluentValidation;
+using MediatR;
 using System.Reflection;
+using Tudu.Api.Behaviors;
+using Tudu.Api.Middleware;
 using Tudu.Api.Shared.Endpoint;
 using Tudu.Infrastructure.Data;
 
@@ -8,8 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining(typeof(Program)));
+
+// DbContext
 builder.Services.AddDbContext<TuduDbContext>();
+
+// MediatR and pipeline behavior
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining(typeof(Program)));
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+//builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 var app = builder.Build();
 

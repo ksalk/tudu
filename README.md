@@ -10,13 +10,15 @@ Most basic and crucial functionality I need, feasible for version 1.0.
 - I want to have a todo backlog that can be filtered, sorted and grouped
 - I want to customize a todo by tag, urgency, importance, deadline, status, description and link other todos as subtodos
 - I want to move unfinished todos in daily list for next day, specified date or to backlog
-- I want to manage goals/projects and assign todos to them
 
 Other features that might come in later versions:
 
+- Project/goals management
+- Calendar
 - Reports/dashboards
 - Habits support
 - Notifications
+- Managing notes and knowledge base, adding notes per day
   
 More to be defined
 
