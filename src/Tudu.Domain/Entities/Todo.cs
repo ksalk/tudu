@@ -2,7 +2,6 @@
 
 namespace Tudu.Domain.Entities
 {
-    // TODO: use more Domain Driven approach
     public class Todo
     {
         public Guid Id { get; private set; }
@@ -15,7 +14,7 @@ namespace Tudu.Domain.Entities
 
         private Todo(
             string name,
-            string description,
+            string? description,
             DateTime? deadline,
             DateOnly? assignedDate)
         {
@@ -30,7 +29,7 @@ namespace Tudu.Domain.Entities
         
         public static Todo Create(
             string name,
-            string description,
+            string? description,
             DateTime? deadline,
             DateOnly? assignedDate
         )
@@ -40,7 +39,7 @@ namespace Tudu.Domain.Entities
 
         public Todo UpdateDetails(
             string name,
-            string description,
+            string? description,
             DateTime? deadline
         )
         {
@@ -54,27 +53,24 @@ namespace Tudu.Domain.Entities
         public Todo UpdateStatus(TodoStatus status)
         {
             Status = status;
-
             return this;
         }
 
         public Todo AssignToDate(DateOnly? date)
         {
             AssignedDate = date;
-
             return this;
         }
 
-         public Todo UnassignFromDate()
+        public Todo UnassignFromDate()
         {
             AssignedDate = null;
-
             return this;
         }
 
         public Todo Update(
             string name,
-            string description,
+            string? description,
             DateTime? deadline,
             DateOnly? assignedDate,
             TodoStatus status

@@ -24,7 +24,7 @@ builder.Services.AddDbContext<TuduDbContext>();
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining(typeof(Program)));
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-//builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 var app = builder.Build();
 
@@ -34,6 +34,10 @@ if (app.Environment.IsDevelopment())
     using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetService<TuduDbContext>();
+        if(dbContext == null)
+        {
+            throw new NullReferenceException($"Cannot fetch instance of {nameof(TuduDbContext)} from service provider.");
+        }
         await dbContext.Database.EnsureCreatedAsync();
     }
 
@@ -57,7 +61,13 @@ void MapEndpoints()
 
     foreach (var endpointType in endpointTypes)
     {
-        IEndpoint endpoint = (IEndpoint)Activator.CreateInstance(endpointType);
+        var endpointObject = Activator.CreateInstance(endpointType);
+        if(endpointObject == null)
+        {
+            throw new NullReferenceException($"Cannot create instance of endpoint: {endpointType.Name}.");
+        }
+        
+        IEndpoint endpoint = (IEndpoint)endpointObject;
         endpoint.Map(app);
     }
 }
