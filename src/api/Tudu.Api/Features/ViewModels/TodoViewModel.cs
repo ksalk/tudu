@@ -13,19 +13,20 @@ namespace Tudu.Api.Features.Todos.ViewModels
         public DateTime? Deadline { get; set; }
         public DateOnly? AssignedDate { get; set; }
 
-        private TodoViewModel() { }
+        private TodoViewModel(Todo todo)
+        {
+            Id = todo.Id;
+            Name = todo.Name;
+            Description = todo.Description;
+            Status = todo.Status;
+            CreatedDate = todo.CreatedDate;
+            Deadline = todo.Deadline;
+            AssignedDate = todo.AssignedDate;
+        }
         
         public static TodoViewModel From(Todo todo)
         {
-            return new TodoViewModel() {
-                 Id = todo.Id,
-                 Name = todo.Name,
-                 Description = todo.Description,
-                 Status = todo.Status,
-                 CreatedDate = todo.CreatedDate,
-                 Deadline = todo.Deadline,
-                 AssignedDate = todo.AssignedDate
-            };
+            return new TodoViewModel(todo);
         }
     }
 }
